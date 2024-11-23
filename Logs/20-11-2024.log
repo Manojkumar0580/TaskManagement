@@ -1,0 +1,78 @@
+CONSOLE.LOG (08:48:02): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m8000[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (08:51:33): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m8000[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (08:59:25): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m8000[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (09:00:26): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m8000[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (09:01:45): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m8000[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (09:02:45): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m8000[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (09:05:08): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m8000[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (01:44:01): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:8000 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (01:45:24): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (01:45:46): [1m[96m[39m[22m
+[1m[96mServer started on [32m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (01:48:13): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:35:27): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:45:47): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:46:17): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:47:02): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:48:38): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:55:09): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5100[22m[1m[39m[96m - http://localhost:5100 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:56:09): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5001[22m[1m[39m[96m - http://localhost:5001 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:56:09): mongodb connected
+CONSOLE.LOG (02:58:51): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5001[22m[1m[39m[96m - http://localhost:5001 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (02:58:51): MongoDB connected to futureEV database
+CONSOLE.LOG (02:59:42): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5001[22m[1m[39m[96m - http://localhost:5001 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (03:00:20): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5001[22m[1m[39m[96m - http://localhost:5001 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (03:00:20): MongoDB connected to futureEV database
+CONSOLE.LOG (05:49:52): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5001[22m[1m[39m[96m - http://localhost:5001 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (05:49:53): MongoDB connected to futureEV database
+CONSOLE.LOG (05:52:21): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5001[22m[1m[39m[96m - http://localhost:5001 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (05:52:21): MongoDB connected to psiborg database
+CONSOLE.LOG (05:54:57): [1m[96m[39m[22m
+[1m[96mServer started on [37m[1m5001[22m[1m[39m[96m - http://localhost:5001 :) [39m[22m
+[1m[96m[39m[22m
+CONSOLE.LOG (05:54:57): MongoDB connected to psiborg database

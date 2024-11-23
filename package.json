@@ -1,0 +1,46 @@
+{
+  "name": "psiborg-assignment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "aws-sdk": "^2.1692.0",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "csv-write-stream": "^2.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-actuator": "^1.8.4",
+    "express-rate-limit": "^7.4.1",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "i18n": "^0.15.1",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "mongoose": "^8.8.2",
+    "morgan": "^1.10.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.16",
+    "nsfwjs": "^4.2.1",
+    "passport": "^0.7.0",
+    "path": "^0.12.7",
+    "rotating-file-stream": "^3.2.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
