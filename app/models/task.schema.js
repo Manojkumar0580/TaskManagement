@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {TaskStatus} = require("../utils/config/menuItems")
 
 const taskSchema = new mongoose.Schema({
     title: {
@@ -18,7 +19,8 @@ const taskSchema = new mongoose.Schema({
         default: 'medium'
     },
     status: {
-        type: String, enum: ['pending', 'in-progress', 'completed'],
+        type: String, 
+        enum: TaskStatus,
         default: 'pending'
     },
     assignedTo: {

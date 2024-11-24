@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'manager', 'user'], 
         default: 'user' 
     }, 
+    team: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // References to team members
+    ]
 },
     {
         timestamps: true,

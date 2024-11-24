@@ -77,6 +77,9 @@ app.use('/v1/auth/role', authRoutes);
 const taskRoutes = require('./app/routes/task.routes')
 app.use('/api/task', taskRoutes);
 
+const teamRoutes = require('./app/routes/team.routes')
+app.use('/api/team', teamRoutes);
+
 // Your routes go here
 app.get("/", (req, res) => {
   res.send("API is running...");

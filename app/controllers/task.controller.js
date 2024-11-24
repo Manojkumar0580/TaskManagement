@@ -2,8 +2,29 @@ const taskModel = require("../models/task.schema");
 const userModel = require("../models/auth.schema")
 const mongoose = require("mongoose")
 const taskValidationSchema = require('../utils/config/validators/task.validator');
-const __res_ = require("../utils/helpers/send.response")
+const __res_ = require("../utils/helpers/send.response");
+const { TaskStatus } = require("../utils/config/menuItems");
+const TeamModel = require("../models/teamSchema")
 
+const getTeamMember = async (req) => {
+    try {
+        if (req.user.role === "user") {
+            return [new mongoose.Schema.ObjectId(req.user._id)];
+        }
+        const team = await TeamModel.find({
+
+
+            teamMembers: req.user._id,
+
+        }).populate("teamMembers");
+        console.log("TEAM===========>", team);
+        if (!team) return [];
+    } catch (err) {
+        console.log(err);
+
+        return [];
+    }
+};
 module.exports = {
     createTask: async (req, res) => {
         try {
@@ -38,7 +59,7 @@ module.exports = {
         try {
 
             const tasks = await taskModel.find({ createdBy: req.user._id });
-
+            getTeamMember(req)
             return __res_.out(req, res, {
                 status: true,
                 statusCode: 200,
@@ -127,52 +148,72 @@ module.exports = {
             const userId = req.user._id;
             const userRole = req.user.role;
 
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const skip = (page - 1) * limit;
+
             if (userRole === 'admin') {
-                const tasks = await taskModel.find().populate('assignedTo createdBy');
+                const totalTasks = await taskModel.countDocuments();
+                const tasks = await taskModel
+                    .find()
+                    .skip(skip)
+                    .limit(limit)
+                    .populate('assignedTo createdBy');
+
                 return __res_.out(req, res, {
                     status: true,
                     statusCode: 200,
                     message: 'Tasks fetched successfully',
-                    data: { tasks }
+                    data: {
+                        totalTasks,
+                        totalPages: Math.ceil(totalTasks / limit),
+                        currentPage: page,
+                        pageSize: tasks.length,
+                        Tasks: tasks
+                    }
                 });
             }
 
+            // Exclude tasks created by admins for manager and user
+            const query = { 'createdBy.role': { $ne: 'admin' } };
+
             if (userRole === 'manager') {
-                const manager = await userModel.findById(userId);
-                const managedUsers = manager.team;
+                const manager = await userModel.findById(userId).populate('team');
+                const managedUsers = manager?.team.map(user => user._id) || [];
 
-                const tasks = await taskModel.find({
-                    $or: [
-                        { assignedTo: userId },
-                        { assignedTo: { $in: managedUsers } }
-                    ]
-                }).populate('assignedTo createdBy');
-
-                return __res_.out(req, res, {
-                    status: true,
-                    statusCode: 200,
-                    message: 'Tasks fetched successfully',
-                    data: { tasks }
-                });
+                query.$or = [
+                    { assignedTo: userId },
+                    { assignedTo: { $in: managedUsers } }
+                ];
             }
 
             if (userRole === 'user') {
-                const tasks = await taskModel.find({ assignedTo: userId }).populate('assignedTo createdBy');
+                // Fetch tasks assigned only to the logged-in user
+                const tasks = await taskModel
+                    .find({ assignedTo: userId }) // Strictly match assignedTo with the logged-in user's ID
+                    .skip(skip)
+                    .limit(limit)
+                    .populate('assignedTo createdBy'); // Populate user and creator details
+
+                const totalUserTasks = await taskModel.countDocuments({ assignedTo: userId });
+
                 return __res_.out(req, res, {
                     status: true,
                     statusCode: 200,
                     message: 'Tasks fetched successfully',
-                    data: { tasks }
+                    data: {
+                        totalTasks: totalUserTasks, // Total tasks assigned to this user
+                        totalPages: Math.ceil(totalUserTasks / limit), // Total pages for this user
+                        currentPage: page,
+                        pageSize: tasks.length,
+                        Tasks: tasks
+                    }
                 });
             }
 
-            return __res_.out(req, res, {
-                status: false,
-                statusCode: 403,
-                message: 'Forbidden'
-            });
-
         } catch (error) {
+            console.error("Error fetching tasks:", error);
+
             return __res_.out(req, res, {
                 status: false,
                 statusCode: 500,
@@ -180,8 +221,11 @@ module.exports = {
             });
         }
     },
+
+
     assignTask: async (req, res) => {
         try {
+
             const { taskId, userId } = req.body;
             if (!mongoose.isValidObjectId(taskId)) {
                 return __res_.out(req, res, {
@@ -206,16 +250,10 @@ module.exports = {
                     message: 'Task not found',
                 });
             }
-            // Ensure the user is part of the same team or role as the manager (optional)
-            const managerId = req.user._id;
-            const manager = await userModel.findById(managerId);
-            if (manager.role !== 'manager') {
-                return __res_.out(req, res, {
-                    status: false,
-                    statusCode: 403,
-                    message: 'Only managers can assign tasks',
-                });
-            }
+
+            const requestingId = req.user._id;
+            const requestingUser = await userModel.findById(requestingId);
+
             // Fetch the assigned user
             const user = await userModel.findById(userId);
             if (!user) {
@@ -226,12 +264,11 @@ module.exports = {
                 });
             }
 
-            // Check if the user's role is "user"
-            if (user.role !== 'user') {
+            if (requestingUser.role === 'user' || (requestingUser.role === 'manager' && ["manager", "admin"].includes(user.role))) {
                 return __res_.out(req, res, {
                     status: false,
                     statusCode: 403,
-                    message: 'Only users can be assigned tasks',
+                    message: 'You are not able to assgin Tasks',
                 });
             }
 
@@ -259,7 +296,6 @@ module.exports = {
         try {
             const { taskId, newUserId } = req.body;
 
-            // Find task by ID
             const task = await taskModel.findById(taskId);
             if (!task) {
                 return __res_.out(req, res, {
@@ -268,7 +304,7 @@ module.exports = {
                     message: 'Task not found',
                 });
             }
-            // Ensure the user is a manager (optional)
+
             const managerId = req.user._id;
             const manager = await userModel.findById(managerId);
             if (manager.role !== 'manager') {
@@ -312,5 +348,56 @@ module.exports = {
             });
         }
     },
+
+    updateTaskStatus: async (req, res) => {
+        try {
+            const taskId = req.params.id;
+            const taskStatus = req.body.status;
+
+            console.log("TASK STATUS========>", taskStatus);
+
+            if (!TaskStatus.includes(taskStatus)) {
+                return __res_.out(req, res, {
+                    status: false,
+                    statusCode: 404,
+                    message: 'Invalid Status',
+                });
+            }
+            const task = await taskModel.findById(taskId);
+            console.log("TASK=========>", task);
+
+            if (!task) {
+                return __res_.out(req, res, {
+                    status: false,
+                    statusCode: 404,
+                    message: 'Task not found',
+                });
+            }
+            if (task.assignedTo?.toString() !== req.user._id) {
+                return __res_.out(req, res, {
+                    status: false,
+                    statusCode: 404,
+                    message: 'You Are Not Allowed To Update the Task',
+                });
+            }
+            task.status = taskStatus
+            await task.save();
+            return __res_.out(req, res, {
+                status: true,
+                statusCode: 200,
+                message: 'Task Updated Successfully',
+                data: task
+            });
+
+
+        } catch (error) {
+            console.log("ERROR===========>", error)
+            return __res_.out(req, res, {
+                status: false,
+                statusCode: 500,
+                message: `Internal Server Error`
+            })
+        }
+    }
 
 };

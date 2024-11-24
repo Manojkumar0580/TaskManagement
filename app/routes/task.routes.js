@@ -209,7 +209,7 @@ router.delete('/tasks/:id', authenticateUser, taskController.deleteTask);
  *       401:
  *         description: Unauthorized
  */
-router.post('/assign', authenticateUser, checkRole(['manager']), taskController.assignTask);
+router.post('/assign', authenticateUser, checkRole(['manager',"admin"]), taskController.assignTask);
 
 /**
  * @swagger
@@ -252,5 +252,66 @@ router.post('/assign', authenticateUser, checkRole(['manager']), taskController.
  *         description: Unauthorized
  */
 router.get('/', authenticateUser, taskController.getAssignedTasks);
+/**
+ * @swagger
+ * /api/task/{id}:
+ *   put:
+ *     summary: Update the status of a task by ID
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The task ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 enum: ['pending', 'in-progress', 'completed']
+ *                 example: 'completed'
+ *     responses:
+ *       200:
+ *         description: Task status updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Task status updated successfully"
+ *                 task:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     status:
+ *                       type: string
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid status value"
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Task not found
+ */
+router.put('/:id', authenticateUser, taskController.updateTaskStatus);
+
 
 module.exports = router;
